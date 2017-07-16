@@ -1,0 +1,207 @@
+IMAPAccount icloud
+Host imap.mail.me.com
+User thomasQ@gmail.com
+Port 993
+PassCmd "pass Mail/icloud 2>/dev/null"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+SSLVersions TLSv1
+AuthMechs LOGIN
+
+IMAPAccount ou 
+Host outlook.office365.com
+User tonySmith@ohiostate.net
+Port 993
+PassCmd "pass Mail/ohiostate.net 2>/dev/null"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+SSLVersions TLSv1
+AuthMechs LOGIN
+
+IMAPAccount yandex
+Host imap.yandex.com
+User thomasQ@yandex.com
+PassCmd "pass Mail/yandex 2>/dev/null"
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+SSLType             STARTTLS
+
+IMAPAccount original
+Host imap.mail.ru
+User anthonyjames@mail.ru
+PassCmd "pass Mail/Russia 2>/dev/null" 
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+SSLType             STARTTLS
+
+# The IMAP server owned by bill gates for Anthony
+IMAPAccount anthony
+Host imap-mail.outlook.com
+User anthonyjames@outlook.com
+PassCmd "pass Mail/Outluook 2>/dev/null"
+CertificateFile      /usr/local/cacert.pem
+SSLType             IMAPS
+
+# The IMAP server owned by BGU for thomasjones
+IMAPAccount School
+Host imap.gmail.com
+User thomasjones@post.bgu.ac.il
+PassCmd "pass Mail/School 2>/dev/null"
+SSLType              IMAPS
+AuthMechs            LOGIN
+CertificateFile /usr/local/etc/openssl/certs/gmail.crt
+CertificateFile /usr/local/etc/openssl/certs/google.crt
+CertificateFile /usr/local/etc/openssl/certs/Equifax.crt
+CertificateFile      /usr/local/cacert.pem
+#CertificateFile     /etc/ssh/ca-certificates.crt
+
+# The IMAP server owned by bill gates for thomasQ
+IMAPAccount thomasQ
+Host imap-mail.outlook.com
+User thomasQ@outlook.com
+PassCmd "pass Mail/Outlook2 2>/dev/null"
+#Pass 
+CertificateFile      /usr/local/cacert.pem
+SSLType             IMAPS
+
+# Link IMAP server to remote used below.
+
+IMAPStore my-remote7
+Account   yandex
+
+IMAPStore my-remote6
+Account   ou
+
+IMAPStore my-remote5
+Account   icloud
+
+IMAPStore my-remote4
+Account   School
+
+IMAPStore my-remote3
+Account   thomasQ
+
+IMAPStore my-remote
+Account   original
+
+IMAPStore my-remote2
+Account   anthony
+
+ # The local storage we'll be using.  Inbox                ~/Mail/School/INBOX/
+ # Note the trailing slash at the end of the Path!
+
+MaildirStore my-local7
+Path                 ~/Mail/Yandex/
+
+MaildirStore my-local6
+Path                 ~/Mail/ou/
+Inbox                ~/Mail/ou/Inbox/
+#Subfolders           
+
+MaildirStore my-local5
+Path                 ~/Mail/icloud/
+Inbox                ~/Mail/icloud/inbox/
+#Subfolders           Verbatim
+
+MaildirStore my-local4
+Path                 ~/Mail/School/
+Inbox                ~/Mail/School/INBOX/
+#SubFolders           Verbatim
+
+MaildirStore my-local3
+Path                 ~/Mail/Outlook2/
+Inbox                ~/Mail/Outlook2/Inbox/
+#SubFolders           Verbatim
+
+MaildirStore my-local2
+Path                 ~/Mail/Outlook/
+Inbox                ~/Mail/Outlook/Inbox/
+#SubFolders           Verbatim
+
+MaildirStore my-local
+Path                 ~/Mail/Russia/
+Inbox                ~/Mail/Russia/INBOX/
+#SubFolders           Verbatim
+
+# This is where the magic happens. Note Sync is set to 'Pull' now -- we'll set it to 'Push' later!
+Group             December
+Channel           School
+# Channel         Russia
+Channel           AnthonyOutlook
+Channel           ThomasQOutlook
+Channel           ou
+# Channel         iCloud
+# Channel         SchoolTrash
+Channel           SchoolSent
+
+Group             March2017
+Channel           School
+Channel           Russia
+Channel           AnthonyOutlook
+Channel           ThomasQOutlook
+Channel           iCloud
+Channel           ou
+Channel           Yandex
+# Channel         SchoolTrash
+# Channel         SchoolSent
+
+Channel           Yandex
+Master           :my-remote7:
+Slave            :my-local7:
+Patterns          !Arc*
+#Sync              Pull
+Expunge           Both
+SyncState         *
+
+Channel          ou 
+Master           :my-remote6:
+Slave            :my-local6:
+Patterns          * !junk !Junk !Archive !archive !archived !Archived
+# Sync            Pull
+Create            Both
+Expunge           Both
+SyncState         *
+
+Channel           iCloud
+Master           :my-remote5:
+Slave            :my-local5:
+Create            Both
+Expunge           Both
+Patterns "INBOX" "Drafts" "Arch*" "Sent*" "Trash" "Junk" "Deleted*"
+SyncState         *
+
+Channel           School
+Master           :my-remote4:
+Slave            :my-local4:
+Patterns          "[Gmail]/All Mail"
+#Sync              Pull
+Create            Both
+Expunge           Both
+SyncState         *
+
+Channel           ThomasQOutlook
+Master           :my-remote3:
+Slave            :my-local3:
+Patterns          * !eejh !unroll* !"unroll/me" !rolledUp !junk !Junk !Archive !archive !archived !Archived
+# Sync              Pull
+Create            Both
+Expunge           Both
+SyncState         *
+
+Channel           AnthonyOutlook
+Master           :my-remote2:
+Slave            :my-local2:
+Patterns        * !Junk !junk
+#Sync              Pull
+Create            Both
+Expunge           Both
+SyncState         *
+
+Channel           Russia
+Master           :my-remote:
+Slave            :my-local:
+Patterns          *
+#Sync              Pull
+Create            Both
+Expunge           Both
+SyncState         *
+
+

@@ -1,0 +1,8 @@
+#!/bin/sh
+msmtp -d -a Russia -i -f anthonyjames@mail.ru -t <<END
+From: anthonyjames@mail.ru
+To: thomasQ@gmail.com
+Subject: test
+
+test
+END
