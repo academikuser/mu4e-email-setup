@@ -1,5 +1,13 @@
 # mu4e-email-setup
 
+## types of accounts setup:
+- regular gmail
+- hosted  gmail
+- regular outlook.com
+- hosted  office365
+- Yandex.com  (tricky tls setup)
+- Mail.ru     (tricky tls setup)
+
 - [more documentation of mu4e - contexts](#sec-1)
   - [init.el](#sec-1-1)
   - [~/.msmtprc](#sec-1-2)
