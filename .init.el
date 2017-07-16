@@ -19,6 +19,29 @@
 
      )
 
+(setq 
+gnus-message-archive-method         '(nnimap "imap.gmail.com")
+gnus-message-archive-group          "[Gmail]/Sent Mail"
+gnus-secondary-select-methods
+'(        (nnimap                   "gmail"
+                                    (nnimap-addres     "imap.gmail.com")
+                                    (nnimap-server-port             993)
+                                    (nnimap-stream                  ssl)    ) )
+starttls-use-gnutls                 t
+message-send-mail-function          'message-send-mail-with-sendmail
+send-mail-function                  'message-send-mail-with-sendmail
+sendmail-program                    "/usr/local/bin/msmtp"
+mail-specify-envelope-from          t
+message-sendmail-f-is-evil          nil
+mail-envelope-from                  'header
+message-sendmail-envelope-from      'header
+smtpmail-auth-credentials           (expand-file-name "~/.authinfo.gpg")
+smtpmail-stream-type                'tls
+smtpmail-smtp-server                "smtp.gmail.com"
+smtpmail-smtp-service               465
+message-kill-buffer-on-exit         t
+) ;; ends a long multi setq
+
   (setq mu4e-trash-folder
 (lambda (msg)
  (cond
@@ -68,7 +91,7 @@
                      ( mu4e-compose-signature .
                                               (concat
                                                "Anthony James\n"
-                                               "Sde Boker, IL\n"))))
+                                               "ShyTown, IL\n"))))
       ,(make-mu4e-context
            :name "Yandex"
            :enter-func (lambda () (mu4e-message "yandex"))
