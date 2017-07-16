@@ -12,8 +12,11 @@
 
 A complete working setup for mu4e is split among at least 3 config files, the emacs config, the getting new mail, and the sending mail.  Here I get mail with the isync package, I prefer it to offlineIMAP.
 
-sending is msmtprc 
-receiving is mbsyncrc 
-emacs is init.el or .spacemacs (user-config) 
-testing is /usr/local/bin/testemail
+sending is msmtprc  
+receiving is mbsyncrc   
+emacs is init.el or .spacemacs (user-config)   
+testing is /usr/local/bin/testemail  
+
+
+.
 
