@@ -1,5 +1,8 @@
 # mu4e-email-setup
 
+## mu4e is using mu  [[https://github.com/djcb/mu/]]
+inside of emacs.  This is an example setup for multiple accounts using the 2017 mu4e-contexts feature.
+
 ## types of accounts setup:
 - regular gmail
 - hosted  gmail
